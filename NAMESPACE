@@ -1,0 +1,4 @@
+export(EBFST, read.genepop, clip.genepop.maf, clip.genepop.name)
+exportPattern("^[[:alpha:]]+")
+importFrom("stats", "optim", "rgamma", "sd")
+importFrom("utils", "flush.console")

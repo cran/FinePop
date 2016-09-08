@@ -1,0 +1,14 @@
+f97b26e422a501bbadf874d45c5f9cd8 *DESCRIPTION
+e8216dc4f0685e49d934f0f14c5f282a *NAMESPACE
+e168cacc641af7498f5b409d71c4f7cd *R/EBFST.R
+06790ea61794d32e43620977ed097ed7 *R/clip.genepop.maf.R
+c5c51559d7bf317f6ca872551abcb96b *R/clip.genepop.name.R
+47663146b84749013ed77f6678b1564f *R/read.genepop.R
+9a33652bb91ea2ca03f96026672dbe56 *build/partial.rdb
+3ac1f02cf471d51b62c28a1245d3970b *data/data.JSM.rda
+e649913af8b0163cfe8987d346ab220a *man/EBFST.Rd
+6f3df8f62b7a7cdb4b0ecbe7b234eda8 *man/FinePop-package.Rd
+6c6e9bc1b6e6658101d9efeffe84bd00 *man/clip.genepop.maf.Rd
+ce887241505149fc28646ac92480d64c *man/clip.genepop.name.Rd
+7f55f8608b3a9a1f31c9718812dbd13e *man/data.JSM.Rd
+ead28e217b2b939ac305cb6769c2ead6 *man/read.genepop.Rd
