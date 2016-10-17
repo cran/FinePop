@@ -9,7 +9,7 @@ n.lpa <- array(NA, c(nLoci,nPop,nAllelesMax))
 for (cl in 1:nLoci){n.lpa[cl,,1:nAlleles[cl]] <- t(popdata$obs_allele_num[[cl]])}
 LocusNames <- popdata$loci_names
 
-PopNames <- paste0("pop", 1:nPop)
+PopNames <- popdata$pop_names
 
 n.la <- apply(n.lpa, c(1,3), sum, na.rm=T)
 n.l <- rowSums(n.la, na.rm=T)

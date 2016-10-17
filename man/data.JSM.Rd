@@ -9,12 +9,14 @@
  $ popname: Names of subpopulations.
 }
 \references{
-Nakajima K et al. (2014) Genetic effects of marine stock enhancement: a case study based on the highly piscivorous Japanese Spanish mackerel. Canadian Journal of Fisheries and Aquatic Sciences. 71, 301-314.\cr\cr
-Rousset F (2008) Genepop'007: a complete reimplementation of the Genepop software for Windows and Linux. Mol. Ecol. Resources 8, 103-106.
+Nakajima K et al. (2014) Genetic effects of marine stock enhancement: a case study based on the highly piscivorous Japanese Spanish mackerel. \emph{Canadian Journal of Fisheries and Aquatic Sciences}, 71, 301-314.\cr\cr
+Rousset F (2008) Genepop'007: a complete reimplementation of the Genepop software for Windows and Linux. \emph{Mol. Ecol. Resources}, 8, 103-106.
 }
 \examples{
 data(data.JSM)
 cat(data.JSM$genepop, file="JSM_genepop.txt", sep="\n")
-print(data.JSM$popname)
+cat(data.JSM$popname, file="JSM_popname.txt", sep=" ")
+
+# See two text files, JSM_genepop.txt and JSM_popname.txt, in your working directory.
 }
 \keyword{datasets}

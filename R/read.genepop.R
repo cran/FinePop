@@ -1,5 +1,5 @@
 read.genepop <-
-function(genepop){
+function(genepop, popname=NULL){
 # read genepop file
 all_lines <- scan(genepop, what=character(), quiet=T, sep="\n", blank.lines.skip=F)
 
@@ -21,6 +21,12 @@ numInd <- popend - popstart + 1
 numIndAll <- sum(numInd)
 PopID <- rep(1:numPop, numInd)
 rm(cline);gc()
+
+if(is.null(popname)){
+  pop.names <- paste0("pop",1:numPop)
+}else{
+  pop.names <- scan(popname, what=character(), quiet=T, blank.lines.skip=T)
+}
 
 # marker genotype
 gtdata <- all_lines[-poploc]
@@ -82,6 +88,7 @@ return(list(pop_allele=haplo,
             indtyp=IndObs,
             npops=numPop,
             pop_sizes=numInd,
+            pop_names=pop.names,
             ind_names=IndNames,
             nloci=numMarker,
             loci_names=MarkerList,

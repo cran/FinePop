@@ -19,8 +19,8 @@ pairwise:
   \item{fst.boot.sd}{Bootstrap standard deviation of estimated Fst.}
 }
 \references{
-Kitada S, Kitakado T, Kishino H (2007) Empirical Bayes inference of pairwise FST and its distribution in the genome. Genetics, 177, 861-873.\cr\cr
-Rousset F (2008) Genepop'007: a complete reimplementation of the Genepop software for Windows and Linux. Mol. Ecol. Resources 8, 103-106.
+Kitada S, Kitakado T, Kishino H (2007) Empirical Bayes inference of pairwise FST and its distribution in the genome. \emph{Genetics}, 177, 861-873.\cr\cr
+Rousset F (2008) Genepop'007: a complete reimplementation of the Genepop software for Windows and Linux. \emph{Mol. Ecol. Resources}, 8, 103-106.
 }
 \author{Reiichiro Nakamichi, Hirohisa Kishino, Shuichi Kitada}
 \seealso{
@@ -28,31 +28,29 @@ Rousset F (2008) Genepop'007: a complete reimplementation of the Genepop softwar
 \code{\link[stats]{hclust}}, \code{\link[stats]{cmdscale}}, \code{\link[ape]{nj}}
 }
 \examples{
-# load data
+# data
 data(data.JSM)
 cat(data.JSM$genepop, file="JSM_genepop.txt", sep="\n")
-popdata <- read.genepop("JSM_genepop.txt")
-name.pop <- data.JSM$popname
-num.pop <- popdata$npop
+cat(data.JSM$popname, file="JSM_popname.txt", sep=" ")
+popdata <- read.genepop(genepop="JSM_genepop.txt", popname="JSM_popname.txt")
 
 # Fst estimation
-result <- EBFST(popdata)
-fst <- result$pairwise$fst
-dimnames(fst) <- list(name.pop[-1], name.pop[-num.pop])
-write.csv(fst, "result_EBFST.csv", na="")
+result.eb <- EBFST(popdata)
+ebfst <- result.eb$pairwise$fst
+write.csv(ebfst, "result_EBFST.csv", na="")
 
 # dendrogram
-fst.d <- as.dist(fst)
-fst.hc <- hclust(fst.d,method="average")
-plot(as.dendrogram(fst.hc), xlab="",ylab="",main="", las=1)
+ebfst.d <- as.dist(ebfst)
+ebfst.hc <- hclust(ebfst.d,method="average")
+plot(as.dendrogram(ebfst.hc), xlab="",ylab="",main="", las=1)
 
 # MDS plot
-mds <- cmdscale(fst.d)
+mds <- cmdscale(ebfst.d)
 plot(mds, type="n", xlab="",ylab="")
-text(mds[,1],mds[,2], name.pop)
+text(mds[,1],mds[,2], popdata$pop_names)
 
 # NJ tree
 library(ape)
-fst.nj <- nj(fst.d)
-plot(fst.nj,type="u",main="",sub="")
+ebfst.nj <- nj(ebfst.d)
+plot(ebfst.nj,type="u",main="",sub="")
 }
