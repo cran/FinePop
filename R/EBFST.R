@@ -3,13 +3,22 @@ function(popdata){
 ########### STEP 1: Preprocess ##########
 nPop <- popdata$npops             # number of sub pops
 nLoci <- popdata$nloci            # number of markers
+LocusNames <- popdata$loci_names
+PopNames <- popdata$pop_names
+
 nAlleles <- popdata$nalleles
 nAllelesMax <- max(nAlleles)
 n.lpa <- array(NA, c(nLoci,nPop,nAllelesMax))
-for (cl in 1:nLoci){n.lpa[cl,,1:nAlleles[cl]] <- t(popdata$obs_allele_num[[cl]])}
-LocusNames <- popdata$loci_names
-
-PopNames <- popdata$pop_names
+for (cl in 1:nLoci){
+  obs.an <- t(popdata$obs_allele_num[[cl]])
+  check0 <- colSums(obs.an)==0        # remove 0 freq allele
+  obs.an <- obs.an[,!check0, drop=F]
+  cna <- ncol(obs.an)
+  nAlleles[cl] <- cna
+  n.lpa[cl,,1:cna] <- obs.an
+}
+nAllelesMax <- max(nAlleles)
+n.lpa <- n.lpa[,,1:nAllelesMax, drop=F]
 
 n.la <- apply(n.lpa, c(1,3), sum, na.rm=T)
 n.l <- rowSums(n.la, na.rm=T)

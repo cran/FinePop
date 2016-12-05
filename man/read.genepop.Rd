@@ -1,6 +1,6 @@
 \name{read.genepop}
 \alias{read.genepop}
-\title{Create a genetic data object of populations from a GENEPOP format file.}
+\title{Create a genotype data object of populations from a GENEPOP format file.}
 \description{
 This function reads a GENEPOP format file (Rousset 2008) and parse it into an R data object. This data object provides a summary of genotype/haplotype of each sample, allele frequency in each population, and marker status. This data object is used in downstream analysis of this package. This function is a "lite" version of readGenepop function in diveRsity package (Keenan 2015).
 }
@@ -23,8 +23,8 @@ read.genepop(genepop, popname = NULL)
   \item{ind_names}{Names of samples in each subpopulation.}
   \item{pop_alleles}{Genotypes of each sample at each locus in haploid designation.}
   \item{pop_list}{Genotypes of each sample at each locus in diploid designation.}
-  \item{obs_allele_num}{Allele counts of each alleles at each locus in each subpopulation.}
-  \item{allele_freq}{Allele frequencies of each alleles at each locus in each subpopulation.}
+  \item{obs_allele_num}{Observed allele counts at each locus in each subpopulation.}
+  \item{allele_freq}{Observed allele frequencies at each locus in each subpopulation.}
   \item{call_rate}{Rate of genotyped samples at each locus.}
 }
 \references{
@@ -38,12 +38,12 @@ Rousset F (2008) Genepop'007: a complete reimplementation of the Genepop softwar
 \examples{
 # data
 data(data.JSM)
-cat(data.JSM$genepop, file="JSM_genepop.txt", sep="\n")
+cat(data.JSM$MS.genepop, file="JSM_MS_genepop.txt", sep="\n")
 cat(data.JSM$popname, file="JSM_popname.txt", sep=" ")
 
 # read GENEPOP file with subpopulation names
-popdata <- read.genepop(genepop="JSM_genepop.txt", popname="JSM_popname.txt")
+popdata <- read.genepop(genepop="JSM_MS_genepop.txt", popname="JSM_popname.txt")
 
 # read GENEPOP file without subpopulation names
-popdata.noname <- read.genepop(genepop="JSM_genepop.txt")
+popdata.noname <- read.genepop(genepop="JSM_MS_genepop.txt")
 }

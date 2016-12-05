@@ -2,13 +2,13 @@
 \alias{thetaWC.pair}
 \title{Weir and Cockerham's theta adapted for pairwise Fst.}
 \description{
-This function estimates Fst between population pairs based on Weir and Cockerham's theta (Weir & Cockerham 1984) adapted for pairwise comparison.
+This function estimates Fst between population pairs based on Weir and Cockerham's theta (Weir & Cockerham 1984) adapted for pairwise comparison from a GENEPOP data object (Rousset 2008). Missing genotype values in the GENEPOP file ("0000" or "000000") are simply ignored.
 }
 \usage{
 thetaWC.pair(popdata)
 }
 \arguments{
-  \item{popdata}{Population data object created by read.genepop function from a GENEPOP file (Rousset 2008).}
+  \item{popdata}{Population data object created by read.genepop function from a GENEPOP file.}
 }
 \details{
 Weir and Cockerham (1984) derived an unbiased estimator of a coancestry coefficient (theta) based on a random effect model. It expresses the extent of genetic heterogeneity within the population. The second stage common approach is to investigate the detailed pattern of the population structure, based on a measure of genetic difference between pairs of subpopulations (demes). We call this by pairwise Fst. This function follows the formula of Weir and Cockerham's theta with the sample size \emph{r} = 2. Given the pair, our finite sample correction multiplies \emph{a} of Weir & Cockerham's theta by (\emph{r} - 1) / \emph{r} (equation 2 in p.1359 of Weir & Cockerham 1984).
@@ -27,9 +27,9 @@ Weir BS, Cockerham CC (1984) Estimating F-statistics for the analysis of populat
 \examples{
 # data
 data(data.JSM)
-cat(data.JSM$genepop, file="JSM_genepop.txt", sep="\n")
+cat(data.JSM$MS.genepop, file="JSM_MS_genepop.txt", sep="\n")
 cat(data.JSM$popname, file="JSM_popname.txt", sep=" ")
-popdata <- read.genepop(genepop="JSM_genepop.txt", popname="JSM_popname.txt")
+popdata <- read.genepop(genepop="JSM_MS_genepop.txt", popname="JSM_popname.txt")
 
 # theta estimation
 result.theta.pair <- thetaWC.pair(popdata)
