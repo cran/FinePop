@@ -35,19 +35,22 @@ Kitada S, Kitakado T, Kishino H (2007) Empirical Bayes inference of pairwise FST
 \code{\link[FinePop]{data.JSM}}, \code{\link[FinePop]{EBFST}}
 }
 \examples{
-# data
+# Example of frequency format file
 data(data.JSM)
 cat(data.JSM$mtDNA.freq, file="JSM_mtDNA_freq.txt", sep="\n")
 cat(data.JSM$popname, file="JSM_popname.txt", sep=" ")
 
-# read frequency format file with subpopulation names
+# Read frequency format file with subpopulation names
+# Prepare your frequency format file and population name file in the working directory
+# (Here, these files were provided as "JSM_mtDNA_freq.txt" and "JSM_popname.txt".)
 popdata.mt <- read.frequency(frequency="JSM_mtDNA_freq.txt", popname="JSM_popname.txt")
 
-# read frequency file without subpopulation names
+# Read frequency file without subpopulation names
 popdata.mt.noname <- read.frequency(frequency="JSM_mtDNA_freq.txt")
 
-# Fst estimation
+# Fst estimation by EBFST
 result.eb.mt <- EBFST(popdata.mt)
 ebfst.mt <- result.eb.mt$pairwise$fst
 write.csv(ebfst.mt, "result_EBFST_mtDNA.csv", na="")
+print(as.dist(ebfst.mt))
 }

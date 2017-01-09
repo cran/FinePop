@@ -74,6 +74,7 @@ cat("\n")
 dimnames(cfstmat) <- list(popdata$pop_names,popdata$pop_names)
 cfstmat <- t(cfstmat)
 cfstmat[upper.tri(cfstmat,diag=T)] <- NA
-cfstmat <- cfstmat[-1,-numpop]
+cfstmat <- as.matrix(as.dist(cfstmat))
+#cfstmat <- cfstmat[-1,-numpop]
 return(cfstmat)
 }

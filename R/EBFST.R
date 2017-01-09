@@ -144,6 +144,14 @@ pairFst_ave[remmat] <- NA
 pairFst_ave_boot_est[remmat] <- NA 
 pairFst_ave_boot_sd[remmat] <- NA 
 
+pairFst_ave <- as.matrix(as.dist(pairFst_ave))
+pairFst_ave_boot_est <- as.matrix(as.dist(pairFst_ave_boot_est))
+pairFst_ave_boot_sd <- as.matrix(as.dist(pairFst_ave_boot_sd))
+
+#pairFst_ave <- pairFst_ave[-1,-nPop]
+#pairFst_ave_boot_est <- pairFst_ave_boot_est[-1,-nPop]
+#pairFst_ave_boot_sd <- pairFst_ave_boot_sd[-1,-nPop]
+
 message("!!! FINISH !!!")
 return(list(
   global=list(
@@ -153,9 +161,9 @@ return(list(
     #fst.sd=globalFst_ave_sd
   ),
   pairwise=list(
-    fst=pairFst_ave[-1,-nPop],
-    fst.boot=pairFst_ave_boot_est[-1,-nPop],
-    fst.boot.sd=pairFst_ave_boot_sd[-1,-nPop]
+    fst=pairFst_ave,
+    fst.boot=pairFst_ave_boot_est,
+    fst.boot.sd=pairFst_ave_boot_sd
   )
 ))
 }

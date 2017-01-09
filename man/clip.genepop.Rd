@@ -18,7 +18,7 @@ Rousset F (2008) Genepop'007: a complete reimplementation of the Genepop softwar
 }
 \author{Reiichiro Nakamichi}
 \examples{
-# data
+# Example of GENEPOP file
 data(data.JSM)
 cat(data.JSM$MS.genepop, file="JSM_MS_genepop.txt", sep="\n")
 

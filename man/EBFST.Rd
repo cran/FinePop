@@ -32,19 +32,24 @@ Rousset F (2008) Genepop'007: a complete reimplementation of the Genepop softwar
 \code{\link[stats]{hclust}}, \code{\link[stats]{cmdscale}}, \code{\link[ape]{nj}}
 }
 \examples{
-# data
+# Example of GENEPOP file
 data(data.JSM)
 cat(data.JSM$MS.genepop, file="JSM_MS_genepop.txt", sep="\n")
 cat(data.JSM$popname, file="JSM_popname.txt", sep=" ")
+
+# Data load
+# Prepare your GENEPOP file and population name file in the working directory
+# (Here, these files were provided as "JSM_MS_genepop.txt" and "JSM_popname.txt".)
 popdata <- read.genepop(genepop="JSM_MS_genepop.txt", popname="JSM_popname.txt")
 
 # Fst estimation
 result.eb <- EBFST(popdata)
 ebfst <- result.eb$pairwise$fst
 write.csv(ebfst, "result_EBFST.csv", na="")
+ebfst.d <- as.dist(ebfst)
+print(ebfst.d)
 
 # dendrogram
-ebfst.d <- as.dist(ebfst)
 ebfst.hc <- hclust(ebfst.d,method="average")
 plot(as.dendrogram(ebfst.hc), xlab="",ylab="",main="", las=1)
 

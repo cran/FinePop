@@ -28,7 +28,8 @@ for(j in (i+1):numPop){
 }}
 gstN <- t(gstN)
 gstN[upper.tri(gstN,diag=T)] <- NA
-gstN <- gstN[-1,-numPop]
+gstN <- as.matrix(as.dist(gstN))
+#gstN <- gstN[-1,-numPop]
 message(" done.")
 
 return(gstN)

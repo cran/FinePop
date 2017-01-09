@@ -48,7 +48,8 @@ for(j in (i+1):numPop){
 }}
 gstNC <- t(gstNC)
 gstNC[upper.tri(gstNC,diag=T)] <- NA
-gstNC <- gstNC[-1,-numPop]
+gstNC <- as.matrix(as.dist(gstNC))
+#gstNC <- gstNC[-1,-numPop]
 message(" done.")
 
 return(gstNC)

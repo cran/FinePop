@@ -1,4 +1,4 @@
 export(EBFST, GstN, GstNC, thetaWC.pair, read.genepop, read.frequency, clip.genepop)
 exportPattern("^[[:alpha:]]+")
-importFrom("stats", "optim", "rgamma", "sd")
+importFrom("stats", "optim", "rgamma", "sd", "as.dist")
 importFrom("utils", "flush.console")
