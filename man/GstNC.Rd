@@ -11,7 +11,8 @@ GstNC(popdata)
   \item{popdata}{Population data object created by read.genepop function from a GENEPOP file.}
 }
 \value{
-Matrix of estimated pairwise Gst.}
+Matrix of estimated pairwise Gst.
+}
 \references{
 Nei M, Chesser RK (1983) Estimation of fixation indices and gene diversity. \emph{Annals of Human Genetics}, 47, 253-259.\cr\cr
 Rousset F (2008) Genepop'007: a complete reimplementation of the Genepop software for Windows and Linux. \emph{Mol. Ecol. Resources}, 8, 103-106.
