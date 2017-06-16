@@ -37,9 +37,9 @@ Rousset F (2008) Genepop'007: a complete reimplementation of the Genepop softwar
 }
 \examples{
 # Example of GENEPOP file
-data(data.JSM)
-cat(data.JSM$MS.genepop, file="JSM_MS_genepop.txt", sep="\n")
-cat(data.JSM$popname, file="JSM_popname.txt", sep=" ")
+data(jsmackerel)
+cat(jsmackerel$MS.genepop, file="JSM_MS_genepop.txt", sep="\n")
+cat(jsmackerel$popname, file="JSM_popname.txt", sep=" ")
 
 # Read GENEPOP file with subpopulation names
 # Prepare your GENEPOP file and population name file in the working directory

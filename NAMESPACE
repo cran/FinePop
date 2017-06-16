@@ -1,5 +1,6 @@
 export(EBFST, EBGstH, EBDJ)
 export(GstN, GstNC, GstH, DJ, thetaWC.pair)
+export(FstBoot, FstEnv)
 export(read.genepop, read.frequency, clip.genepop)
-importFrom("stats", "optim", "rgamma", "sd")
-importFrom("utils", "flush.console")
+importFrom("stats", "optim", "rgamma", "sd", "as.dist", "cov", "lm", "logLik", "pnorm", "vcov")
+importFrom("utils", "flush.console", "combn")

@@ -1,9 +1,9 @@
-\name{data.JSM}
-\alias{data.JSM}
+\name{jsmackerel}
+\alias{jsmackerel}
 \docType{data}
-\title{An example dataset of GENEPOP format and frequency format.}
+\title{An example dataset of Japanese Spanich mackerel in GENEPOP and frequency format.}
 \description{An example of a genetic data for a Japanese Spanish mackerel population (Nakajima et al. 2014). It contains genotypic information of 5 microsatellite markers and mtDNA D-loop region from 8 subpopulations of 715 individuals. GENEPOP format (Rousset 2008) and frequency format (Kitada et al. 2007) text files are available. Name list of subpopulations also is attached.}
-\usage{data("data.JSM")}
+\usage{data("jsmackerel")}
 \format{
  $ MS.genepop: Genotypic information of 5 microsatellites in GENEPOP format text data.\cr
  $ MS.freq: Allele frequency of 5 microsatellites  in frequency format text data.\cr
@@ -22,11 +22,11 @@ Rousset F (2008) Genepop'007: a complete reimplementation of the Genepop softwar
 \code{\link[FinePop]{read.genepop}}, \code{\link[FinePop]{read.frequency}}
 }
 \examples{
-data(data.JSM)
-cat(data.JSM$MS.genepop, file="JSM_MS_genepop.txt", sep="\n")
-cat(data.JSM$MS.freq, file="JSM_MS_freq.txt", sep="\n")
-cat(data.JSM$mtDNA.freq, file="JSM_mtDNA_freq.txt", sep="\n")
-cat(data.JSM$popname, file="JSM_popname.txt", sep=" ")
+data(jsmackerel)
+cat(jsmackerel$MS.genepop, file="JSM_MS_genepop.txt", sep="\n")
+cat(jsmackerel$MS.freq, file="JSM_MS_freq.txt", sep="\n")
+cat(jsmackerel$mtDNA.freq, file="JSM_mtDNA_freq.txt", sep="\n")
+cat(jsmackerel$popname, file="JSM_popname.txt", sep=" ")
 
 # See four text files in your working directory.
 #  JSM_MS_genepop.txt  : GENEPOP format file of microsatellite data

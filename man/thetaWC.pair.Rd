@@ -26,9 +26,9 @@ Weir BS, Cockerham CC (1984) Estimating F-statistics for the analysis of populat
 }
 \examples{
 # Example of GENEPOP file
-data(data.JSM)
-cat(data.JSM$MS.genepop, file="JSM_MS_genepop.txt", sep="\n")
-cat(data.JSM$popname, file="JSM_popname.txt", sep=" ")
+data(jsmackerel)
+cat(jsmackerel$MS.genepop, file="JSM_MS_genepop.txt", sep="\n")
+cat(jsmackerel$popname, file="JSM_popname.txt", sep=" ")
 
 # Data load
 # Prepare your GENEPOP file and population name file in the working directory

@@ -66,7 +66,7 @@ if(!is.null(major.af)){
     cgt <- table(cgt)
     maf_count[cm] <- max(cgt / sum(cgt))
   }
-  remloci.maf <- which(maf_count <= major.af)
+  remloci.maf <- which(maf_count > major.af)
   message("done.")
 }
 numNG.maf <- length(remloci.maf)
@@ -76,7 +76,7 @@ numNG <- length(remloci)
 numOK <- numMarker - numNG
 
 ####
-if(!is.null(remloci)){
+if(numNG>0){
   message("Writing clipped GENEPOP file... ",appendLF=F); flush.console()
 
   gtdata <- cbind(paste0(IndID, ","), gtdata[,-remloci])

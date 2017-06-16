@@ -11,7 +11,7 @@ EBGstH(popdata)
   \item{popdata}{Genotype data object of populations created by read.genepop function from a GENEPOP file. Allele (haplotype) frequency data object created by read.frequency function from a frequency format file also is acceptable.}
 }
 \details{
-Frequency format file is a plain text file containing allele (haplotype) count data. This format is mainly for mitochondrial DNA (mtDNA) haplotype frequency data, however nuclear DNA (nDNA) data also is applicable. In the data object created by read.frequency function, "number of samples" means haplotype count. Therefore, it equals the number of individuals in mtDNA data, however it is the twice of the number of individuals in nDNA data. First part of the frequency format file is the number of subpopulations, second part is the number of loci, and latter parts are [\emph{population} x \emph{allele}] matrices of the observed allele (haplotype) counts at each locus. Two examples of frequency format files are attached in this package. See \code{\link[FinePop]{data.JSM}}.
+Frequency format file is a plain text file containing allele (haplotype) count data. This format is mainly for mitochondrial DNA (mtDNA) haplotype frequency data, however nuclear DNA (nDNA) data also is applicable. In the data object created by read.frequency function, "number of samples" means haplotype count. Therefore, it equals the number of individuals in mtDNA data, however it is the twice of the number of individuals in nDNA data. First part of the frequency format file is the number of subpopulations, second part is the number of loci, and latter parts are [\emph{population} x \emph{allele}] matrices of the observed allele (haplotype) counts at each locus. Two examples of frequency format files are attached in this package. See \code{\link[FinePop]{jsmackerel}}.
 }
 \value{
 Matrix of estimated pairwise Hedrick's G'st.
@@ -27,9 +27,9 @@ Rousset F (2008) Genepop'007: a complete reimplementation of the Genepop softwar
 }
 \examples{
 # Example of GENEPOP file
-data(data.JSM)
-cat(data.JSM$MS.genepop, file="JSM_MS_genepop.txt", sep="\n")
-cat(data.JSM$popname, file="JSM_popname.txt", sep=" ")
+data(jsmackerel)
+cat(jsmackerel$MS.genepop, file="JSM_MS_genepop.txt", sep="\n")
+cat(jsmackerel$popname, file="JSM_popname.txt", sep=" ")
 
 # Data load
 # Prepare your GENEPOP file and population name file in the working directory

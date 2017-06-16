@@ -12,7 +12,7 @@ read.frequency(frequency, popname = NULL)
   \item{popname}{A character value specifying the name of the plain text file containing the names of subpopulations to be analyzed. This text file must not contain other than subpopulation names. The names must be separated by spaces, tabs or line breaks. If this argument is omitted, serial numbers will be assigned as subpopulation names.}
 }
 \details{
-Frequency format file is a plain text file containing allele (haplotype) count data. This format is mainly for a mitochondrial DNA (mtDNA) haplotype frequency data, however nuclear DNA (nDNA) data also is applicable. In the data object created by read.frequency function, "number of samples" means haplotype count. Therefore, it equals the number of individuals in mtDNA data, however it is the twice of the number of individuals in nDNA data. First part of the frequency format file is the number of subpopulations, second part is the number of loci, and latter parts are [\emph{population} x \emph{allele}] matrices of the observed allele (haplotype) counts at each locus. Two examples of frequency format files are attached in this package. See \code{\link[FinePop]{data.JSM}}.
+Frequency format file is a plain text file containing allele (haplotype) count data. This format is mainly for a mitochondrial DNA (mtDNA) haplotype frequency data, however nuclear DNA (nDNA) data also is applicable. In the data object created by read.frequency function, "number of samples" means haplotype count. Therefore, it equals the number of individuals in mtDNA data, however it is the twice of the number of individuals in nDNA data. First part of the frequency format file is the number of subpopulations, second part is the number of loci, and latter parts are [\emph{population} x \emph{allele}] matrices of the observed allele (haplotype) counts at each locus. Two examples of frequency format files are attached in this package. See \code{\link[FinePop]{jsmackerel}}.
 }
 \value{
   \item{npops}{Number of subpopulations.}
@@ -32,13 +32,13 @@ Kitada S, Kitakado T, Kishino H (2007) Empirical Bayes inference of pairwise FST
 }
 \author{Reiichiro Nakamichi, Hirohisa Kishino, Shuichi Kitada}
 \seealso{
-\code{\link[FinePop]{data.JSM}}, \code{\link[FinePop]{EBFST}}
+\code{\link[FinePop]{jsmackerel}}, \code{\link[FinePop]{EBFST}}
 }
 \examples{
 # Example of frequency format file
-data(data.JSM)
-cat(data.JSM$mtDNA.freq, file="JSM_mtDNA_freq.txt", sep="\n")
-cat(data.JSM$popname, file="JSM_popname.txt", sep=" ")
+data(jsmackerel)
+cat(jsmackerel$mtDNA.freq, file="JSM_mtDNA_freq.txt", sep="\n")
+cat(jsmackerel$popname, file="JSM_popname.txt", sep=" ")
 
 # Read frequency format file with subpopulation names
 # Prepare your frequency format file and population name file in the working directory
