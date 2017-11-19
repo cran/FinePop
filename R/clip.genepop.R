@@ -1,9 +1,11 @@
 clip.genepop <-
 function(infile, outfile, remove.list=NULL, major.af=NULL){
 ####
+LFx <- intToUtf8(0x0A)
+HTx <- intToUtf8(0x09)
 cat("Reading GENEPOP file... ");flush.console()
-all_lines <- scan(infile, what=character(), quiet=T, sep="\n", blank.lines.skip=F)
-cat("done.\n"); flush.console()
+all_lines <- scan(infile, what=character(), quiet=T, sep=LFx, blank.lines.skip=F)
+message("done."); flush.console()
 
 ####
 cat("Processing  GENEPOP data... "); flush.console()
@@ -12,12 +14,12 @@ genepop_title <- all_lines[1]
 
 # locus pop sample count
 cline <- gsub(" ", "", all_lines)
-cline <- gsub("\t", "", cline)
+cline <- gsub(HTx, "", cline)
 poploc <- which(toupper(cline)=="POP")
 
 MarkerList <- cline[2:(poploc[1]-1)]
-MarkerList <- gsub(",", "\n", MarkerList)
-MarkerList <- unlist(strsplit(MarkerList, "\n"))
+MarkerList <- gsub(",", LFx, MarkerList)
+MarkerList <- unlist(strsplit(MarkerList, LFx))
 numMarker <- length(MarkerList)
 
 numPop <- length(poploc)
@@ -34,18 +36,18 @@ gtdata <- gtdata[-(1:(poploc[1]-1))]
 gtdata <- unlist(strsplit(gtdata, ","))
 
 IndID <- gtdata[c(T,F)]
-gtdata <- gsub(" ", "\t", gtdata[c(F,T)])
-gtdata <- matrix(unlist(strsplit(gtdata, "\t")), nrow=sum(numInd), byrow=T)
+gtdata <- gsub(" ", HTx, gtdata[c(F,T)])
+gtdata <- matrix(unlist(strsplit(gtdata, HTx)), nrow=sum(numInd), byrow=T)
 gtdata <- gtdata[,-which(colSums(gtdata=="")!=0)]
 
 genepop_digit <- as.integer(nchar(as.character(gtdata[1,1]))/2)
 
 if(genepop_digit==2){genepop_na <- "00"
 }else if(genepop_digit==3){genepop_na <- "000"
-}else{cat("!!! Disorder in reading GENEPOP file. !!!\n");return(0)}
+}else{message("!!! Disorder in reading GENEPOP file. !!!");return(0)}
 
 rm(all_lines); gc()
-cat("done.\n"); flush.console()
+message("done."); flush.console()
 
 # remove by name
 remloci.name <- NULL
@@ -90,11 +92,11 @@ if(numNG>0){
   cat(outline, file=outfile, sep="\n")
 
   message("done.")
-  message("Number of populations = ", numPop, "\n",
+  message("Number of populations = ", numPop, LFx,
           "Number of markers = ", numMarker, " -> ", numOK, sep="")
   message(numNG, " markers removed.")
 }else{
-  message("Number of populations = ", numPop, "\n",
+  message("Number of populations = ", numPop, LFx,
           "Number of markers = ", numMarker, sep="")
   message("No marker removed.")
 }

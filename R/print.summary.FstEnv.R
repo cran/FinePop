@@ -1,9 +1,10 @@
 print.summary.FstEnv <-
-function(sfe){
-  print(sfe$models)
-  message("\nBest model: ", sfe$best.model)
+function(x, ...){
+  LFx <- intToUtf8(0x0A)
+  print(x$models)
+  message(LFx, "Best model: ", x$best.model)
   message("Coefficients:")
-  print(sfe$best.coefficients)
-  message("TIC= ", round(sfe$best.TIC,4))
-  message("R2= ", round(sfe$best.R2,4))
+  print(x$best.coefficients)
+  message("TIC= ", round(x$best.TIC,4))
+  message("R2= ", round(x$best.R2,4))
 }

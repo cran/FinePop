@@ -10,7 +10,13 @@ function(fst.bs, environment, distance=NULL){
   funclist <- NULL
   for(cnf in 1:length(gelist)){
     fcomb <- combn(gelist, cnf)
-    fcombI <- apply(fcomb, 2, paste, collapse="*")
+    #fcombI <- apply(fcomb, 2, paste, collapse="*")
+    if(cnf==1){
+      fcombI <- NULL
+    }else{
+      fcombI <- apply(fcomb, 2, paste, collapse="+")
+      fcombI <- paste0("(",fcombI,")^2")
+    }
     fcombS <- apply(fcomb, 2, paste, collapse="+")
     fcomb <- unique(as.vector(rbind(fcombI,fcombS)))
     funclist <- c(funclist, fcomb)

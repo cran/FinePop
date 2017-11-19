@@ -11,16 +11,19 @@ function(popdata, method){
   }
   af2 <- af^2
 
+  LFx <- intToUtf8(0x0A)
+  BSx <- intToUtf8(0x08)
+
   PopSt <- array(0, c(numPop,numPop))
   dimnames(PopSt) <- list(popdata$pop_names,popdata$pop_names)
   message("Calculating population ", appendLF=F)
-  cprogressPop <- ""
+  cstep.pop <- ""
   spop <- 2
   for(i in 1:(numPop-1)){
   for(j in (i+1):numPop){
-    message(paste0(rep("\b", nchar(cprogressPop)), collapse=""), appendLF=F)
-    cprogressPop <- paste0(i, ":", j, " ")
-    message(cprogressPop, appendLF=F); flush.console()
+    message(paste0(rep(BSx, nchar(cstep.pop)), collapse=""), appendLF=F)
+    cstep.pop <- paste0(i, ":", j, " ")
+    message(cstep.pop, appendLF=F); flush.console()
 
     hs <- 1 - colMeans(apply(af2[c(i,j),,], c(1,2), sum))
     ht <- 1 - rowSums(apply(af[c(i,j),,], c(2,3), mean)^2)

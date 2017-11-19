@@ -25,12 +25,15 @@ n.l <- rowSums(n.la, na.rm=T)
 n.lp <- apply(n.lpa, c(1,2), sum, na.rm=T)
 n.lp.array <- array(rep(n.lp, nAllelesMax), c(nLoci,nPop,nAllelesMax))
 
+LFx <- intToUtf8(0x0A)
+BSx <- intToUtf8(0x08)
+
 # Excluding one-sided markers (major alelle freq > 99%)
 maf_check <- apply(n.la/n.l, 1, max, na.rm=T) > 0.99
 if(sum(maf_check)>0){
   message(
-    "WARNING:\n",
-    " Detected inappropriate markers (major allele frequency > 99%).\n",
+    "WARNING:", LFx,
+    " Detected inappropriate markers (major allele frequency > 99%).", LFx,
     " Locus Names: ", paste(LocusNames[maf_check],collapse=", "))
 }
 
@@ -63,8 +66,11 @@ opt_result <- optim(par=log(theta_init), fn=nlogL, method="L-BFGS-B",
 rm(n.lap)
 
 theta_est <- exp(opt_result$par)
+theta_se <- NA
+theta_se <- try(as.numeric(1/sqrt(opt_result$hessian)), silent=T)
 
 globalFst_est <- 1/(theta_est+1)
+globalFst_ave_sd <- sqrt(theta_se^2 / (1+theta_est)^4)
 
 message("done.")
 
@@ -93,7 +99,7 @@ calcHtHsMat <- function(AN){
   cstep <- ""
   for(cp1 in 1:(nPop-1)){
   for(cp2 in (cp1+1):nPop){
-    message(rep("\b",nchar(cstep)),appendLF=F)
+    message(rep(BSx,nchar(cstep)),appendLF=F)
     cstep <- paste0(cp1, ":", cp2)
     message(cstep,appendLF=F);flush.console() 
     for(cl in 1:nLoci){
@@ -105,7 +111,7 @@ calcHtHsMat <- function(AN){
       pair_Ht[cp1,cp2,cl] <- pair_Ht[cp2,cp1,cl] <- cGstVec[2]
     }
   }}
-  message(rep("\b",nchar(cstep)+4),"done.")
+  message(rep(BSx,nchar(cstep)+4),"done.")
   return(list(Hs=pair_Hs,Ht=pair_Ht))
 }
 
@@ -162,7 +168,9 @@ result <-
      "Fst" = list(
                global=list(
                  theta=theta_est,
-                 fst=globalFst_est
+                 theta.se=theta_se,
+                 fst=globalFst_est,
+                 fst.sd=globalFst_ave_sd
                ),
                pairwise=list(
                  fst=pairFst,

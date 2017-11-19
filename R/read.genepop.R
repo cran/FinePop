@@ -1,17 +1,19 @@
 read.genepop <-
 function(genepop, popname=NULL){
 # read genepop file
-all_lines <- scan(genepop, what=character(), quiet=T, sep="\n", blank.lines.skip=F)
+LFx <- intToUtf8(0x0A)
+HTx <- intToUtf8(0x09)
+all_lines <- scan(genepop, what=character(), quiet=T, sep=LFx, blank.lines.skip=F)
 
 # title 
 gp_title <- all_lines[1]
 
 # locus pop sample count
 cline <- gsub(" ", "", all_lines)
-cline <- gsub("\t", "", cline)
+cline <- gsub(HTx, "", cline)
 poploc <- which(toupper(cline)=="POP")
 MarkerList <- cline[2:(poploc[1]-1)]
-MarkerList <- gsub(",", "\n", MarkerList)
+MarkerList <- gsub(",", LFx, MarkerList)
 MarkerList <- unlist(strsplit(MarkerList, "\n"))
 numMarker <- length(MarkerList)
 numPop <- length(poploc)
@@ -34,9 +36,9 @@ gtdata <- gtdata[-(1:(poploc[1]-1))]
 gtdata <- unlist(strsplit(gtdata, ","))
 IndID <- gtdata[c(T,F)]
 IndID <- gsub(" ", "", IndID)
-IndID <- gsub("\t", "", IndID)
-gtdata <- gsub(" ", "\t", gtdata[c(F,T)])
-gtdata <- matrix(unlist(strsplit(gtdata, "\t")), nrow=numIndAll, byrow=T)
+IndID <- gsub(HTx, "", IndID)
+gtdata <- gsub(" ", HTx, gtdata[c(F,T)])
+gtdata <- matrix(unlist(strsplit(gtdata, HTx)), nrow=numIndAll, byrow=T)
 gtdata <- gtdata[,-which(colSums(gtdata=="")!=0)]
 gp_digit <- as.integer(nchar(as.character(gtdata[1,1]))/2)
 gp_na <- paste(rep("0", gp_digit), collapse="")

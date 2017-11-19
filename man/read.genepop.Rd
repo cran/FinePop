@@ -2,7 +2,7 @@
 \alias{read.genepop}
 \title{Create a genotype data object of populations from a GENEPOP format file.}
 \description{
-This function reads a GENEPOP format file (Rousset 2008) and parse it into an R data object. This data object provides a summary of genotype/haplotype of each sample, allele frequency in each population, and marker status. This data object is used in downstream analysis of this package. This function is a "lite" version of readGenepop function in diveRsity package (Keenan 2015).
+This function reads a GENEPOP format file (Rousset 2008) and parse it into an R data object. This data object provides a summary of genotype/haplotype of each sample, allele frequency in each population, and marker status. This data object is used in downstream analysis of this package. This function is a "lite" and faster version of readGenepop function in diveRsity package (Keenan 2015).
 }
 \usage{
 read.genepop(genepop, popname = NULL)

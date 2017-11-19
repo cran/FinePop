@@ -1,15 +1,15 @@
 summary.FstEnv <-
-function(fstenv){
-  num.model <- length(fstenv)
+function(object, ...){
+  num.model <- length(object)
   models <- NULL
   TIC <- NULL
   R2 <- NULL
   coeffs <- list()
-  for(i in 1:11){
-    models <- c(models,fstenv[[i]]$model) 
-    TIC <- c(TIC,fstenv[[i]]$TIC) 
-    R2 <- c(R2,fstenv[[i]]$R2)
-    coeffs[[i]] <- fstenv[[i]]$coefficients 
+  for(i in 1:num.model){
+    models <- c(models,object[[i]]$model) 
+    TIC <- c(TIC,object[[i]]$TIC) 
+    R2 <- c(R2,object[[i]]$R2)
+    coeffs[[i]] <- object[[i]]$coefficients 
   }
 
   models.tab <- data.frame(models,TIC,R2)

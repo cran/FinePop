@@ -1,9 +1,11 @@
 read.frequency <-
 function(frequency, popname=NULL){
 # read frequency file
-all_lines <- scan(frequency, what=character(), quiet=T, sep="\n", blank.lines.skip=F)
+LFx <- intToUtf8(0x0A)
+HTx <- intToUtf8(0x09)
+all_lines <- scan(frequency, what=character(), quiet=T, sep=LFx, blank.lines.skip=F)
 all_lines <- tolower(all_lines)
-all_lines <- gsub("\t", " ", all_lines)
+all_lines <- gsub(HTx, " ", all_lines)
 all_lines <- gsub(" {1,}"," ", all_lines)
 all_lines <- gsub(" $", "", all_lines)
 

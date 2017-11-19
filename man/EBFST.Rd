@@ -15,7 +15,7 @@ Frequency format file is a plain text file containing allele (haplotype) count d
 }
 \value{
 global:
-  \item{theta}{Rate of gene flow.}
+  \item{theta}{Estimated gene flow rate.}
   \item{fst}{Estimated global Fst.}
 pairwise:
   \item{fst}{Estimated pairwise Fst.}

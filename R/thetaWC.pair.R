@@ -7,13 +7,16 @@ rpop <- 2
 cfstmat <- matrix(0, nrow=numpop, ncol=numpop)
 dimnames(cfstmat) <- list(popdata$pop_names,popdata$pop_names)
 
+LFx <- intToUtf8(0x0A)
+BSx <- intToUtf8(0x08)
+
 message("Calculating population ", appendLF=F)
-cprogressPop <- ""
+cstep.pop <- ""
 for(cpop1 in 1:(numpop-1)){
 for(cpop2 in (cpop1+1):numpop){
-  message(paste0(rep("\b", nchar(cprogressPop)), collapse=""), appendLF=F)
-  cprogressPop <- paste0(cpop1, ":", cpop2, " ")
-  message(cprogressPop, appendLF=F); flush.console()
+  message(paste0(rep(BSx, nchar(cstep.pop)), collapse=""), appendLF=F)
+  cstep.pop <- paste0(cpop1, ":", cpop2, " ")
+  message(cstep.pop, appendLF=F); flush.console()
 
   sum_a <- 0
   sum_abc <- 0
