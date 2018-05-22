@@ -1,5 +1,5 @@
 calc.PopSt.EB <-
-function(popdata, method){
+function(popdata, method, num.iter=100, locus=F){
 ########### STEP 1: Preprocess ##########
 nPop <- popdata$npops             # number of sub pops
 nLoci <- popdata$nloci            # number of markers
@@ -47,7 +47,32 @@ p.ave.la.array <- array(rep(p.ave.la, nPop), c(nLoci,nAllelesMax,nPop))
 p.ave.la.array <- aperm(p.ave.la.array, c(1,3,2))
 
 sigma2 <- apply((p.lpa - p.ave.la.array)^2, c(1,3), sum, na.rm=T) / (nPop-1)
-theta_init <- mean(p.ave.la*(1-p.ave.la)/sigma2, na.rm=T) - 1
+
+if(method=="Fst" & locus==T){
+  globalFst.l <- rep(0,nLoci)
+  nlogL.l <- function(log.theta){
+    theta <- exp(log.theta)
+    alpha <- theta * cp.ave.la
+    alpha.array <- array(rep(alpha,nPop), c(1,nAllelesMax,nPop))
+    lgtheta <- lgamma(theta)
+    lgalpha <- lgamma(alpha.array)
+    clogL <- lgtheta * 1 * nPop - sum(lgamma(cn.lp+theta)) +
+             sum(lgamma(cn.lap+alpha.array)-lgalpha, na.rm=T)
+    return(-clogL)
+  }
+  for(cloc in 1:nLoci){
+    cnLoci <- 1
+    cp.ave.la <- p.ave.la[cloc,,drop=F]
+    cn.lp <- n.lp[cloc,,drop=F]
+    theta_init <- mean(cp.ave.la*(1-cp.ave.la)/sigma2[cloc,,drop=F], na.rm=T) - 1
+    cn.lap <- aperm(n.lpa[cloc,,,drop=F], c(1,3,2))
+    opt_result <- optim(par=log(theta_init), fn=nlogL.l, method="L-BFGS-B",
+                        lower=log(theta_init/1000), upper=log(theta_init*1000),
+                        hessian=F, control=list(maxit=1000))
+    ctheta_est <- exp(opt_result$par)
+    globalFst.l[cloc] <- 1/(ctheta_est+1)
+  }
+}
 
 nlogL <- function(log.theta){
   theta <- exp(log.theta)
@@ -56,27 +81,26 @@ nlogL <- function(log.theta){
   lgtheta <- lgamma(theta)
   lgalpha <- lgamma(alpha.array)
   clogL <- lgtheta * nLoci * nPop - sum(lgamma(n.lp+theta)) +
-           sum(lgamma(n.lap+alpha.array)-lgalpha, na.rm=T)
+           sum(lgamma(cn.lap+alpha.array)-lgalpha, na.rm=T)
   return(-clogL)
 }
-n.lap <- aperm(n.lpa, c(1,3,2))
+theta_init <- mean(p.ave.la*(1-p.ave.la)/sigma2, na.rm=T) - 1
+cn.lap <- aperm(n.lpa, c(1,3,2))
 opt_result <- optim(par=log(theta_init), fn=nlogL, method="L-BFGS-B",
                     lower=log(theta_init/1000), upper=log(theta_init*1000),
-                    hessian=T, control=list(maxit=1000))
-rm(n.lap)
-
+                    hessian=F, control=list(maxit=1000))
+rm(cn.lap)
 theta_est <- exp(opt_result$par)
-theta_se <- NA
-theta_se <- try(as.numeric(1/sqrt(opt_result$hessian)), silent=T)
-
+#theta_se <- NA
+#theta_se <- try(as.numeric(1/sqrt(opt_result$hessian)), silent=T)
 globalFst_est <- 1/(theta_est+1)
-globalFst_ave_sd <- sqrt(theta_se^2 / (1+theta_est)^4)
+#globalFst_ave_sd <- sqrt(theta_se^2 / (1+theta_est)^4)
 
 message("done.")
 
 ########## STEP 3: Estimate pairwise Fst ########## 
 message("Computing pairwise differenciation with EB method... ",appendLF=F);flush.console()
-Nit <- 1000
+Nit <- num.iter
 
 GstVec<-function(an1,an2,Nit){
  lam1 <- rgamma(length(an1)*Nit, rep(an1,Nit), scale=1)
@@ -93,8 +117,8 @@ GstVec<-function(an1,an2,Nit){
 }
 
 calcHtHsMat <- function(AN){
-  pair_Hs <- array(0, c(nPop,nPop,nLoci))
-  pair_Ht <- array(0, c(nPop,nPop,nLoci))
+  pair_Hs <- pair_Ht <-
+    array(1, c(nPop,nPop,nLoci), dimnames=list(PopNames,PopNames,LocusNames))
   message("pop ",appendLF=F)
   cstep <- ""
   for(cp1 in 1:(nPop-1)){
@@ -122,14 +146,17 @@ ebhs <- apply(HtHsMat$Hs,c(1,2),mean)
 ebht <- apply(HtHsMat$Ht,c(1,2),mean)
 
 pairGstH <- (1-ebhs/ebht)*(1+ebhs)/(1-ebhs)
-diag(pairGstH) <- 0
+#diag(pairGstH) <- 0
 pairD <- (ebht-ebhs)/(1-ebhs)*2/(2-1)
+#diag(pairD) <- 0
 pairFst <- 1-ebhs/ebht
-diag(pairFst) <- 0
+#diag(pairFst) <- 0
 
-dimnames(pairFst) <- list(PopNames, PopNames)
-dimnames(pairGstH) <- list(PopNames, PopNames)
-dimnames(pairD) <- list(PopNames, PopNames)
+if(method=="Fst" & locus==T){
+  pairFst.l <- 1 - HtHsMat$Hs / HtHsMat$Ht
+  #pairFst.l[is.nan(pairFst.l)] <- 0
+}
+
 
 if(method=="Fst"){
 ########## STEP 4: Variance of Fst ########## 
@@ -168,9 +195,9 @@ result <-
      "Fst" = list(
                global=list(
                  theta=theta_est,
-                 theta.se=theta_se,
-                 fst=globalFst_est,
-                 fst.sd=globalFst_ave_sd
+                 #theta.se=theta_se,
+                 fst=globalFst_est#,
+                 #fst.sd=globalFst_ave_sd
                ),
                pairwise=list(
                  fst=pairFst,
@@ -182,5 +209,10 @@ result <-
      "DJ" = pairD,
      NA
    )
+if(method=="Fst" & locus==T){
+  result$global$fst.locus <- globalFst.l
+  result$pairwise$fst.locus <- pairFst.l
+}
+
 return(result)
 }

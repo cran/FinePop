@@ -1,2 +1,2 @@
 EBDJ <-
-function(popdata){calc.PopSt.EB(popdata, "DJ")}
+function(popdata, num.iter=100){calc.PopSt.EB(popdata, "DJ", num.iter)}

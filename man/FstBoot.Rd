@@ -5,21 +5,24 @@
 This function provides bootstrapped estimators of Fst to evaluate the environmental effects on the genetic diversity. See Details.
 }
 \usage{
-FstBoot(popdata, fst.method = "EBFST", bsrep = 100, log.bs = F)
+FstBoot(popdata, fst.method = "EBFST", bsrep = 100, log.bs = F, locus = F)
 }
 \arguments{
   \item{popdata}{Genotype data object of populations created by read.genepop function from a GENEPOP file.}
   \item{fst.method}{A character value specifying the Fst estimation method to be used. Currently, "EBFST", "EBGstH", "EBDJ", "GstN", "GstNC", "GstH", "DJ" and "thetaWC.pair" are available.}
   \item{bsrep}{A positive integer value specifying the trial times of bootstrapping.}
-  \item{log.bs}{A logical value specifying whether the user would like to save the bootstrapped data of each trial. If TRUE, GENEPOP format files named "gtdata_bsXXX.txt" (XXX=trial number) are saved in the working directory.}
+  \item{log.bs}{A logical value specifying whether the bootstrapped data of each trial should be saved. If TRUE, GENEPOP format files named "gtdata_bsXXX.txt" (XXX=trial number) are saved in the working directory.}
+  \item{locus}{A Logical argument indicating whether locus-specific Fst values should be calculated.}
 }
 \details{
 	FinePop provides a method for regression analyses of the pairwise Fst values against geographical distance and the differences to examine the effect of environmental variables on population differentiation (Kitada et. al 2017). First, \code{\link[FinePop]{FstBoot}} function resamples locations with replacement, and then, we also resample the member individuals with replacement from the sampled populations. It calculates pairwise Fst for each bootstrap sample. Second, \code{\link[FinePop]{FstEnv}} function estimates regression coefficients (\code{\link[stats]{lm}} function) of for the Fst values for each iteration. It then computes the standard deviation of the regression coefficients, Z-values and P-values of each regression coefficient. All possible model combinations for the environmental explanatory variables were examined, including their interactions. The best fit model with the minimum information criterion (TIC, Takeuchi 1976, Burnham & Anderson 2002) is selected. Performance for detecting environmental effects on population structuring is evaluated by the R2 value.
 }
 \value{
-\item{org.fst}{Estimated pairwise Fst matrix for original data.}
-\item{bs.fst.list}{List of estimated Fst matrices for bootstrapped data.}
 \item{bs.pop.list}{List of subpopulations in bootstrapped data}
+\item{bs.fst.list}{List of genome-wide pairwise Fst matrices for bootstrapped data.}
+\item{org.fst}{Genome-wide pairwise Fst matrix for original data.}
+\item{bs.fst.list.locus}{List of locus-specific pairwise Fst matrices for bootstrapped data. (If locus = TRUE)}
+\item{org.fst.locus}{Locus-specific pairwise Fst matrix for original data. (If locus = TRUE)}
 }
 \references{
 Burnham KP, Anderson DR (2002) \emph{Model Selection and Multimodel Inference: A Practical Information-Theoretic Approach.} Springer, New York.\cr\cr

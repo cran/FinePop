@@ -1,12 +1,17 @@
 FstBoot <-
-function(popdata, fst.method="EBFST", bsrep=100, log.bs=F){
+function(popdata, fst.method="EBFST", bsrep=100, log.bs=F, locus=F){
   calcFst <- eval(parse(text=fst.method))
 ### rawdata ###
   gpdata0 <- popdata
   numpop <- gpdata0$npops
   numloci <- gpdata0$nloci
-  fst0 <- calcFst(gpdata0)
-  if(fst.method=="EBFST"){fst0 <- fst0$pairwise$fst}
+  if(fst.method=="EBFST"){
+    fst0 <- calcFst(gpdata0, locus=locus)
+    fst0.l <- fst0$pairwise$fst.locus
+    fst0 <- fst0$pairwise$fst
+  }else{
+    fst0 <- calcFst(gpdata0)
+  }
 
 ### loc & ind resample ###
 gp_locind_resample <- function(popdata, crep){
@@ -34,25 +39,47 @@ gp_locind_resample <- function(popdata, crep){
 ### bootstrap cal fst ###
   bs.poplist <- list()
   bs.fstlist <- list()
+  bs.fstlist.l <- list()
   crep <- 1
+  trial.success <- ""
   while(crep <= bsrep){
-    message("Bootstrapping ", crep, "/", bsrep)
+    message("Bootstrapping ", crep, "/", bsrep, " ", trial.success)
     gc()
     bs.gpdata <- gp_locind_resample(gpdata0, crep)
     cgp <- bs.gpdata$gp
     cpop <- bs.gpdata$pop
-    cfst <- calcFst(cgp)
-    if(fst.method=="EBFST"){cfst <- cfst$pairwise$fst}
-    if(sum(!is.finite(cfst))==0){
+
+    cfst <- cfst.l <- NULL
+    try({
+      if(fst.method=="EBFST"){
+        cfst <- calcFst(cgp, locus=locus)
+        cfst.l <- cfst$pairwise$fst.locus
+        cfst <- cfst$pairwise$fst
+      }else{
+        cfst <- calcFst(cgp)
+      }
+    })
+
+    if(sum(!is.finite(cfst))==0 & !is.null(cfst)){
       bs.poplist[[crep]] <- cpop
       bs.fstlist[[crep]] <- cfst
+      bs.fstlist.l[[crep]] <- cfst.l
       crep <- crep+1
+      trial.success <- ""
+    }else{
+      trial.success <- "retry"
     }
   }#bs calc fst
 
- return(list(
-   org.fst=fst0,
-   bs.fst.list=bs.fstlist,
-   bs.pop.list=bs.poplist
- ))
+  result <- list(
+     bs.pop.list=bs.poplist,
+     bs.fst.list=bs.fstlist,
+     org.fst=fst0
+  )
+  if(fst.method=="EBFST"&locus==T){
+   result$bs.fst.list.locus <- bs.fstlist.l
+   result$org.fst.locus <- fst0.l
+  }
+
+  return(result)
 }

@@ -24,8 +24,15 @@ function(fst.bs, environment, distance=NULL){
   funclist <- paste0("fst~-1+", funclist)
 
 ### model fitting and TIC ###
+  BSx <- intToUtf8(0x08)
   out.list <- list() 
+  cstep <- ""
+  message("Testing models... ",appendLF=F)
   for(cmodel in 1:length(funclist)){
+    message(rep(BSx,nchar(cstep)),appendLF=F)
+    cstep <- paste0(cmodel, "/", length(funclist))
+    message(cstep,appendLF=F);flush.console() 
+
     infunc <- funclist[cmodel]
     ## lm - bootstrap ##
     efflist <- NULL; r2list <- NULL
@@ -106,6 +113,7 @@ function(fst.bs, environment, distance=NULL){
       R2=summary(lmresult)$r.sq
     ) 
   }# model fitting, TIC
+  message(rep(BSx,nchar(cstep)),"done.")
 
   class(out.list) <- "FstEnv"
   return(out.list)
