@@ -24,7 +24,7 @@ pairwise:
   \item{fst}{Estimated genome-wide pairwise Fst.}
   \item{fst.boot}{Bootstrap mean of estimated Fst.}
   \item{fst.boot.sd}{Bootstrap standard deviation of estimated Fst.}
-  \item{fst}{Estimated locus-specific pairwise Fst. (If locus = TRUE)}
+  \item{fst.locus}{Estimated locus-specific pairwise Fst. (If locus = TRUE)}
 }
 \references{
 Kitada S, Kitakado T, Kishino H (2007) Empirical Bayes inference of pairwise FST and its distribution in the genome. \emph{Genetics}, 177, 861-873.\cr\cr

@@ -2,7 +2,7 @@ FstEnv <-
 function(fst.bs, environment, distance=NULL){
   bsrep <- length(fst.bs$bs.pop.list)
   numpop <- length(fst.bs$bs.pop.list[[1]])
-  distance <- as.matrix(as.dist(distance))
+  if(!is.null(distance)){distance <- as.matrix(as.dist(distance))}
 
 ### model list ###
   gelist <- colnames(environment)
@@ -46,13 +46,15 @@ function(fst.bs, environment, distance=NULL){
         cfstmat <- fst.bs$bs.fst.list[[crep]]
         bspops <- fst.bs$bs.pop.list[[crep]]
       }
-      cgeo <- matrix(0, nrow=numpop, ncol=numpop)
-      for(cpop1 in 1:(numpop-1)){
-      for(cpop2 in (cpop1+1):numpop){
-        cbspop1 <- min(bspops[cpop1], bspops[cpop2])
-        cbspop2 <- max(bspops[cpop1], bspops[cpop2])
-        cgeo[cpop1,cpop2] <- distance[cbspop1, cbspop2]
-      }}
+      if(!is.null(distance)){
+        cgeo <- matrix(0, nrow=numpop, ncol=numpop)
+        for(cpop1 in 1:(numpop-1)){
+        for(cpop2 in (cpop1+1):numpop){
+          cbspop1 <- min(bspops[cpop1], bspops[cpop2])
+          cbspop2 <- max(bspops[cpop1], bspops[cpop2])
+          cgeo[cpop1,cpop2] <- distance[cbspop1, cbspop2]
+        }}
+      }
       cenv <- environment[bspops,]
       num.env <- ncol(environment)
 
